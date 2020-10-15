@@ -1,0 +1,53 @@
+plugins {
+	id 'java'
+	id 'jacoco'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    mavenLocal()
+}
+
+ext{
+	jupiterVersion = '5.6.1'
+	jupiterLauncherVersion ='1.6.1'
+	slfApiVersion = '1.7.30'
+	logbackVersion = '1.2.3'
+}
+
+dependencies {
+
+	testImplementation "org.junit.jupiter:junit-jupiter-api:${jupiterVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${jupiterVersion}"
+    testImplementation "org.junit.platform:junit-platform-launcher:${jupiterLauncherVersion}"
+	
+	// Logback (via SLF4J)
+	testRuntimeOnly "ch.qos.logback:logback-classic:${logbackVersion}"
+	
+	testCompile group: 'org.mockito', name: 'mockito-core', version: '2.21.0'
+	testCompile group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.5.11'
+	
+	
+	
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+sourceCompatibility='1.8'
+targetCompatibility='1.8'
+
+jacocoTestReport {
+	reports {
+		xml.enabled = true
+		html.enabled = true
+	}
+}
+
+wrapper() {
+  gradleVersion = '6.6.1'
+}
+
